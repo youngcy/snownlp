@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from . import normal
-from . import seg
+# from . import seg
+import jieba
 from . import tag
 from . import sentiment
 from .sim import bm25
@@ -18,7 +19,7 @@ class SnowNLP(object):
 
     @property
     def words(self):
-        return seg.seg(self.doc)
+        return jieba.cut(self.doc)
 
     @property
     def sentences(self):
@@ -57,7 +58,7 @@ class SnowNLP(object):
         doc = []
         sents = self.sentences
         for sent in sents:
-            words = seg.seg(sent)
+            words = jieba.cut(sent)
             words = normal.filter_stop(words)
             doc.append(words)
         rank = textrank.TextRank(doc)
@@ -71,7 +72,7 @@ class SnowNLP(object):
         doc = []
         sents = self.sentences
         for sent in sents:
-            words = seg.seg(sent)
+            words = jieba.cut(sent)
             words = normal.filter_stop(words)
             doc.append(words)
         rank = textrank.KeywordTextRank(doc)
